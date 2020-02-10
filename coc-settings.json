@@ -1,0 +1,4 @@
+{
+    "metals.javaHome": "/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home",
+    "coc.preferences.formatOnSaveFiletypes": ["scala"]
+}
