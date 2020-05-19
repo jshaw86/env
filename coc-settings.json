@@ -1,4 +1,10 @@
 {
-    "metals.javaHome": "/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home",
-    "coc.preferences.formatOnSaveFiletypes": ["scala"]
+    "coc.preferences.formatOnSaveFiletypes": ["rust", "golang", "java"],
+    "go.enable": true,
+    "rust-client.channel": "nightly",
+    "go.goplsOptions": {
+        "completeUnimported": true,
+        "deepCompletion": true,
+        "completionDocumentation": true
+    }
 }

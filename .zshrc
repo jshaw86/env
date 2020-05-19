@@ -18,16 +18,16 @@ setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
 
 export LSCOLORS='gxfxcxdxbxgggdabagacad'
 export CLICOLOR='true'
-export EDITOR='vim'
+export EDITOR='nvim'
 export WORKON_HOME=~/virtual-environments
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+export JAVA_HOME=`/usr/libexec/java_home -v 13`
 export GRADLE_HOME=~/gradle
 export NVM_DIR="$HOME/.nvm"
 
 export ANSIBLE_HOST_KEY_CHECKING=false
 
 export TERM='screen-256color'
-export GOPATH=~/Sites/gopath
+export GOPATH=~/Development/gopath
 export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:/Users/jshaw86/perl5";
 export PERL_MB_OPT="--install_base /Users/jshaw86/perl5";
 export PERL_MM_OPT="INSTALL_BASE=/Users/jshaw86/perl5";
@@ -35,21 +35,23 @@ export PERL5LIB="/Users/jshaw86/perl5/lib/perl5:$PERL5LIB";
 export HISTFILE=~/.history
 export HISTSIZE=1000
 export SAVEHIST=1000
+export NODE_VERSION=12
 
 source ~/.zshenv
 
 # {{{ Aliases 
-alias -s php=vim
-alias -s css=vim
-alias -s js=vim
-alias -s cpp=vim
-alias -s gs=vim
-alias -s gsc=vim
+alias -s php=nvim
+alias -s css=nvim
+alias -s js=nvim
+alias -s cpp=nvim
+alias -s gs=nvim
+alias -s gsc=nvim
 
 alias grep='egrep'
 alias ll='ls -l'
 alias la='ls -a'
-alias vi='vim'
+alias vi='nvim'
+alias vim='nvim'
 alias tmux="TERM=screen-256color-bce tmux"
 # }}}
 
@@ -115,42 +117,28 @@ function aws_env() {
 }
 
 function kuse() {
-    region=$1
-    context=$USER-$region
+    environment=$1
 
     export KUBECONFIG='';
 
-    if [[ $region == 'bronze' ]] ; then
-        echo "Using context... $region"
-        export KUBECONFIG=~/.kube/bronze.ps.pn
-        return
+    if [[ $environment == 'prod' ]] ; then
+        context=$PROD_K8S
     fi
 
-    if [[ $region == 'integration' ]] ; then
-        echo "Using context... $context"
-        export KUBECONFIG=~/.kube/$USER-integration.ps.pn
-        return
+    if [[ $environment == 'qa' ]] ; then
+        context=$QA_K8S
     fi
 
-    if [[ $region == 'minikube' ]] ; then
-        context='minikube'
-        echo "Using context... $context"
-        kubectl config use-context $context
-        return
+    if [[ $environment == 'devel' ]] ; then
+        context=$DEVEL_K8S
     fi
 
-     echo "Using context... $region"
-     export KUBECONFIG=~/.kube/$USER-k-$region.ps.pn
+    if [[ $environment == 'minikube' || $environment == 'docker-desktop' ]] ; then
+        context=$environment
+    fi
 
-}
-
-function kall() {
-
-    for region in `echo "aws-iad-1 aws-sjc-1 aws-fra-1 aws-hnd-1"`; do
-        echo "Running $* in $region"
-        kuse $region
-        $*
-    done
+     echo "Using context... $context"
+     kubectl config use-context $context 
 
 }
 
@@ -168,8 +156,29 @@ function get_pwd() {
     echo "${PWD/$HOME/~}"
 }
 
+function k() {
+    current_env=$(kubectl config current-context)
+    all_args=$*;
+    if read -q "?run kubectl ${all_args} against ${current_env} (y/n) ?"; then
+        aws-okta exec prod-eng -- env kubectl $*
+        return
+    fi
+    echo "aborted.. kubectl ${all_args}"
+}
 
-. "/usr/local/opt/nvm/nvm.sh"
+function h() {
+    current_env=$(kubectl config current-context)
+    all_args=$*;
+    if read -q "?run helm ${all_args} against ${current_env} (y/n) ?"; then
+        aws-okta exec prod-eng -- env helm $*
+        return
+    fi
+    echo "aborted.. helm ${all_args}"
+}
+
+[ -f "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
+
+nvm use $NODE_VERSION > /dev/null
 
 # added by travis gem
 [ -f /Users/$USER/.travis/travis.sh ] && source /Users/$USER/.travis/travis.sh
@@ -186,10 +195,6 @@ autoload -U colors; colors
 
 # Git Status
 [ -f /Users/$USER/.zsh/zsh-kubectl-prompt/kubectl.zsh ] && source /Users/$USER/.zsh/zsh-git-prompt/zshrc.sh
-
-PROMPT='$fg[green]$USER$reset_color - $fg[gray]$(get_pwd)/
-%{$fg[yellow]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%} $ '
-RPROMPT='$(git_super_status)'
 
 # Load the super duper completion stuff
 autoload -U compinit

@@ -8,37 +8,23 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-function! CocExtensionStatus() abort
-    return get(g:, 'coc_status', '')
-endfunction
-
 " set the runtime path to include Vundle and initialize
 " let Vundle manage Vundle, required
 call plug#begin('~/.vim/plugged')
 Plug 'flazz/vim-colorschemes'
-Plug 'dense-analysis/ale'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'sheerun/vim-polyglot'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'artur-shaik/vim-javacomplete2'
 Plug 'tpope/vim-fugitive'
-Plug 'derekwyatt/vim-scala'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 call plug#end()
 
-
-let g:airline_section_c = '%f%{CocExtensionStatus()}'
+let g:coc_node_path='/Users/jshaw/.nvm/versions/node/v12.15.0/bin/node'
 " For the buffer explorer
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1 
-
-let g:syntastic_check_on_open = 1
-let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 1
 
 let g:terraform_align=1
 let g:terraform_fold_sections=1
@@ -59,7 +45,7 @@ set encoding=utf-8      " set encoding to UTF-8 (default was "latin1")
 set wildmenu            " visual autocomplete for command menu
 set lazyredraw          " redraw screen only when we need to
 set showmatch           " highlight matching parentheses / brackets [{()}]
-set laststatus=2        " always show statusline (even with only single window)
+set laststatus=1        " always show statusline (even with only single window)
 set ruler               " show line and column number of the cursor on right side of statusline
 set visualbell          " blink cursor on error, instead of beeping
 
@@ -97,25 +83,12 @@ set cursorline         " highlight current line
 set background=dark    " configure Vim to use brighter colors
 set autoread           " autoreload the file in Vim if it has been changed outside of Vim
 
-set ofu=syntaxcomplete#Complete
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType go set omnifunc=gocomplete#Complete
-autocmd FileType golang set omnifunc=gocomplete#Complete
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd Filetype java set completefunc=javacomplete#CompleteParamsInfo
-autocmd Filetype java set omnifunc=javacomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType ruby set omnifunc=rubycomplete#Complete
-autocmd FileType sql set omnifunc=sqlcomplete#CompletePHP
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-
 """scala stuff
 au BufRead,BufNewFile *.sbt set filetype=scala
 autocmd FileType json syntax match Comment +\/\/.\+$+
 autocmd FileType scala let b:coc_root_patterns = ['build.sbt']
 " Configuration for coc.nvim
+autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
 set hidden
 
@@ -124,7 +97,7 @@ set nobackup
 set nowritebackup
 
 " Better display for messages
-set cmdheight=2
+set cmdheight=1
 
 " You will have a bad experience with diagnostic messages with the default 4000.
 set updatetime=300
