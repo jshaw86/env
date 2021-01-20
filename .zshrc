@@ -26,7 +26,7 @@ export NVM_DIR="$HOME/.nvm"
 
 export ANSIBLE_HOST_KEY_CHECKING=false
 
-export TERM='screen-256color'
+export TERM='screen-256color-bce'
 export GOPATH=~/Development/gopath
 export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:/Users/jshaw86/perl5";
 export PERL_MB_OPT="--install_base /Users/jshaw86/perl5";
@@ -160,7 +160,7 @@ function k() {
     current_env=$(kubectl config current-context)
     all_args=$*;
     if read -q "?run kubectl ${all_args} against ${current_env} (y/n) ?"; then
-        aws-okta exec prod-eng -- env kubectl $*
+        aws-okta --mfa-provider OKTA --mfa-factor-type push exec prod-eng -- env kubectl $*
         return
     fi
     echo "aborted.. kubectl ${all_args}"
@@ -170,10 +170,19 @@ function h() {
     current_env=$(kubectl config current-context)
     all_args=$*;
     if read -q "?run helm ${all_args} against ${current_env} (y/n) ?"; then
-        aws-okta exec prod-eng -- env helm $*
+        aws-okta --mfa-provider OKTA --mfa-factor-type push exec prod-eng -- env helm $*
         return
     fi
     echo "aborted.. helm ${all_args}"
+}
+
+function java8() {
+    export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+}
+
+function mysql57() {
+    export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+
 }
 
 [ -f "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
