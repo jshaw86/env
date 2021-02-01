@@ -1,5 +1,7 @@
 #!/bin/bash 
 
+brew install reattach-to-user-namespace
+
 if [ -d ~/.oh-my-zsh ]; then  
     echo "Skipping oh-my-zsh setup"
 else
