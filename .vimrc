@@ -11,7 +11,7 @@ endif
 " set the runtime path to include Vundle and initialize
 " let Vundle manage Vundle, required
 call plug#begin('~/.vim/plugged')
-Plug 'flazz/vim-colorschemes'
+Plug 'sainnhe/gruvbox-material'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -22,7 +22,18 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 call plug#end()
 
-colorscheme Atelier_SeasideLight
+"""
+" CONFIGURE GRUVBOX
+"""
+" Important!!
+if has('termguicolors')
+    set termguicolors
+endif
+" Set contrast.
+" This configuration option should be placed before `colorscheme gruvbox-material`.
+" Available values: 'hard', 'medium'(default), 'soft'
+let g:gruvbox_material_background = 'hard'
+colorscheme gruvbox-material
 
 let g:coc_node_path='/Users/jshaw/.nvm/versions/node/v12.15.0/bin/node'
 " For the buffer explorer
