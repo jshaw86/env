@@ -28,10 +28,10 @@ export ANSIBLE_HOST_KEY_CHECKING=false
 
 export TERM='screen-256color-bce'
 export GOPATH=~/Development/gopath
-export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:/Users/jshaw86/perl5";
-export PERL_MB_OPT="--install_base /Users/jshaw86/perl5";
-export PERL_MM_OPT="INSTALL_BASE=/Users/jshaw86/perl5";
-export PERL5LIB="/Users/jshaw86/perl5/lib/perl5:$PERL5LIB";
+export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:/Users/$USER/perl5";
+export PERL_MB_OPT="--install_base /Users/$USER/perl5";
+export PERL_MM_OPT="INSTALL_BASE=/Users/$USER/perl5";
+export PERL5LIB="/Users/$USER/perl5/lib/perl5:$PERL5LIB";
 export HISTFILE=~/.history
 export HISTSIZE=1000
 export SAVEHIST=1000
