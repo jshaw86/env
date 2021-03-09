@@ -1,6 +1,7 @@
 #!/bin/bash 
 
-brew install reattach-to-user-namespace
+brew tap adoptopenjdk/openjdk
+brew install adoptopenjdk13 nvm reattach-to-user-namespace
 
 if [ -d ~/.oh-my-zsh ]; then  
     echo "Skipping oh-my-zsh setup"
