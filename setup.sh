@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 brew tap adoptopenjdk/openjdk
-brew install adoptopenjdk13 nvm reattach-to-user-namespace
+brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace
 
 if [ -d ~/.oh-my-zsh ]; then  
     echo "Skipping oh-my-zsh setup"
@@ -34,12 +34,14 @@ if [ -L ~/.tmux.conf ]; then
     echo "Skipping tmux.conf linking"
 else
     ln -s ~/env/.tmux.conf ~/.tmux.conf  
+    echo "Open tmux and type prefix + I to load theme"
 fi
 
 if [ -L ~/.oh-my-zsh/custom/custom.zsh ]; then 
     echo "Skipping custom.zsh linking"
 else
     ln -s ~/env/custom.zsh ~/.oh-my-zsh/custom/custom.zsh
+    cp ~/env/.zshenv ~/.zshenv
 fi
 
 if [ -L ~/.oh-my-zsh/custom/theme.zsh ]; then 
