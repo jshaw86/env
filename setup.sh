@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 brew tap adoptopenjdk/openjdk
-brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace
+brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig
 
 if [ -d ~/.oh-my-zsh ]; then  
     echo "Skipping oh-my-zsh setup"
@@ -48,4 +48,11 @@ if [ -L ~/.oh-my-zsh/custom/theme.zsh ]; then
     echo "Skipping theme.zsh linking"
 else
     ln -s ~/env/theme.zsh ~/.oh-my-zsh/custom/theme.zsh
+fi
+
+if [ -d ~/.config/nvim ]; then 
+    echo "Skipping vimrc linking"
+else
+    mkdir -p ~/.config/nvim/
+    ln -s ~/env/.vimrc ~/.config/nvim/init.vim
 fi
