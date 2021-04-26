@@ -35,7 +35,7 @@ endif
 let g:gruvbox_material_background = 'hard'
 colorscheme gruvbox-material
 
-let g:coc_node_path='/Users/jshaw/.nvm/versions/node/v12.15.0/bin/node'
+let g:coc_node_path='/Users/jordan.shaw/.nvm/versions/node/v12.22.1/bin/node'
 " For the buffer explorer
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
