@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 brew tap adoptopenjdk/openjdk
-brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig
+brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig fzf ripgrep
 
 if [ -d ~/.oh-my-zsh ]; then  
     echo "Skipping oh-my-zsh setup"
