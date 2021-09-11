@@ -185,6 +185,16 @@ function mysql57() {
 
 }
 
+function terraform11() {
+    export PATH="/usr/local/opt/terraform@0.11/bin:$PATH"
+
+}
+
+function terraform1() {
+    export PATH="/usr/local/opt/terraform@1.0/bin:$PATH"
+
+}
+
 [ -f "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
 
 nvm use $NODE_VERSION > /dev/null
@@ -211,3 +221,4 @@ compinit
 autoload -U promptinit
 promptinit
 
+ulimit -n 1024

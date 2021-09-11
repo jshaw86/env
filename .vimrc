@@ -11,6 +11,8 @@ endif
 " set the runtime path to include Vundle and initialize
 " let Vundle manage Vundle, required
 call plug#begin('~/.vim/plugged')
+Plug 'shinchu/lightline-gruvbox.vim'
+Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/gruvbox-material'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
@@ -21,6 +23,8 @@ Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'fholgado/minibufexpl.vim'
+" Plug 'hashivim/vim-terraform'
+Plug 'vim-scripts/groovy.vim'
 call plug#end()
 
 """
@@ -51,6 +55,26 @@ let g:scala_scaladoc_indent = 1
 let java_highlight_functions = 1
 let java_highlight_all = 1
 let NERDTreeAutoDeleteBuffer = 1
+
+
+""" Lightline
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'filename': 'LightlineFilename',
+      \   'cocstatus': 'coc#status'
+      \ },
+      \ }
+function! LightlineFilename()
+  return expand('%:t') !=# '' ? @% : '[No Name]'
+endfunction
+
+" Use auocmd to force lightline update.
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 """" Basic Behavior
 
@@ -102,8 +126,6 @@ set autoread           " autoreload the file in Vim if it has been changed outsi
 au BufRead,BufNewFile *.sbt set filetype=scala
 autocmd FileType json syntax match Comment +\/\/.\+$+
 autocmd FileType scala let b:coc_root_patterns = ['build.sbt']
-" Configuration for coc.nvim
-autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
 set hidden
 
