@@ -11,15 +11,21 @@ fi
 
 
 if [ -f ~/.oh-my-zsh/custom/themes/gruvbox.zsh-theme ]; then 
-    echo "Skipping zsh gruvbox setup"
+    echo "Skipping zsh gruvbox font setup"
 else
     brew tap homebrew/cask-fonts
     brew install --cask font-hack-nerd-font
     curl -L https://raw.githubusercontent.com/sbugzu/gruvbox-zsh/master/gruvbox.zsh-theme > ~/.oh-my-zsh/custom/themes/gruvbox.zsh-theme
-    curl -L https://raw.githubusercontent.com/herrbischoff/iterm2-gruvbox/master/gruvbox.itermcolors > ~/env/gruvbox.itermcolors
     echo "Configure Iterm"
     echo "install nerd fonts"
     echo "    iTerm2 > Preferences > Profiles > Text > Non-Ascii font > Knack Regular Nerd Font Complete"
+fi
+
+if [ -f ~/env/gruvbox.itermcolors ]; then 
+    echo "Skipping zsh gruvbox colors setup"
+else
+    curl -L https://raw.githubusercontent.com/herrbischoff/iterm2-gruvbox/master/gruvbox.itermcolors > ~/env/gruvbox.itermcolors
+    
     echo "install gruvbox.itermcolors from this directory"
     echo "    iTerm2 Preferences -> Profiles -> Colors -> Color Preset"
 fi
@@ -54,5 +60,7 @@ if [ -d ~/.config/nvim ]; then
     echo "Skipping vimrc linking"
 else
     mkdir -p ~/.config/nvim/
+    curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     ln -s ~/env/.vimrc ~/.config/nvim/init.vim
+    nvm install v12.22.1
 fi
