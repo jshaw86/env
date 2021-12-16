@@ -116,6 +116,19 @@ function aws_env() {
     export AWS_SECRET_ACCESS_KEY=$DEV_AWS_SECRET_ACCESS_KEY
 }
 
+function kconfig() {
+    if [ -z "${1}" ]; then
+	ls -la ~/.kube/*.yaml
+    else
+	if [ -f ~/.kube/$1.yaml ]; then
+	    export KUBECONFIG=~/.kube/$1.yaml
+	else
+	    echo "file ~/.kube/$1.yaml does not exist"
+	fi
+    fi
+
+}
+
 function kuse() {
     environment=$1
 
