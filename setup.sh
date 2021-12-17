@@ -3,6 +3,9 @@
 brew tap adoptopenjdk/openjdk
 brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig fzf ripgrep go dsh python3 awscli ninja
 
+# for php language server
+npm i intelephense -g
+
 if [ -d ~/.oh-my-zsh ]; then  
     echo "Skipping oh-my-zsh setup"
 else
@@ -65,7 +68,7 @@ else
 fi
 
 if [ -d $HOME/tools ]; then
-    echo "Skipping lua lsp setup"
+    echo "Skipping lua language setup"
 else
     mkdir -p $HOME/tools/ && cd $HOME/tools
     git clone --depth=1 git@github.com:sumneko/lua-language-server.git 

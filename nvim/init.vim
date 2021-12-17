@@ -46,8 +46,12 @@ set nocompatible
 set noerrorbells
 set tabstop=4 softtabstop=4
 set shiftwidth=4
+set scrolloff=8
+set signcolumn=yes
 set expandtab
 set smartindent
+set relativenumber
+set hidden
 set nu
 set nowrap
 set smartcase

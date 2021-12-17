@@ -98,3 +98,12 @@ require'lspconfig'.sumneko_lua.setup {
     },
 }
 
+nvim_lsp.intelephense.setup({
+    settings = {
+        intelephense = {
+            files = {
+                maxSize = 5000000;
+            };
+        };
+    }
+});
