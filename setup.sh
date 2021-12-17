@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 brew tap adoptopenjdk/openjdk
-brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig fzf ripgrep go dsh python3 awscli
+brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig fzf ripgrep go dsh python3 awscli ninja
 
 if [ -d ~/.oh-my-zsh ]; then  
     echo "Skipping oh-my-zsh setup"
@@ -59,8 +59,26 @@ fi
 if [ -d ~/.config/nvim ]; then 
     echo "Skipping vimrc linking"
 else
-    mkdir -p ~/.config/nvim/
+    ln -s ~/.config/nvim ~/.config/nvim
     curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    ln -s ~/env/.vimrc ~/.config/nvim/init.vim
     nvm install v12.22.1
 fi
+
+if [ -d $HOME/tools ]; then
+    echo "Skipping lua lsp setup"
+else
+    mkdir -p $HOME/tools/ && cd $HOME/tools
+    git clone --depth=1 git@github.com:sumneko/lua-language-server.git 
+
+    cd lua-language-server
+    # if the cloning speed is too slow, edit .gitmodules and replace github.com
+    # with hub.fastgit.org, which should be faster than github.
+    git submodule update --init --recursive
+
+    # build on Linux
+    cd 3rd/luamake
+    compile/install.sh
+    cd ../..
+    ./3rd/luamake/luamake rebuild
+fi
+

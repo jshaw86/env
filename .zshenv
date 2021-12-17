@@ -1,4 +1,4 @@
-export PATH="/usr/local/opt/mysql@5.6/bin:/usr/local/opt/scala@2.12/bin:$GOPATH/bin:/usr/local/Cellar/gcc/5.2.0/bin:/usr/local/opt/openssl/bin:/usr/local/opt/curl/bin:/usr/local/opt/openssl/bin:/usr/local/bin:$PATH:/usr/local/Cellar/mysql/5.5.24/bin:/usr/local/sbin:/usr/share:/var/lib/gems/1.8/bin:$HOME/bin:$HOME/pear/bin:node_modules/.bin:$HOME/node_modules/.bin:/Developer/usr/bin:$PORTAL_PATH/bin:$HOME/.venvburrito/bin:$HOME/node_modules/bin:$HOME/gradle/bin:$HOME/terraform:$HOME/workspace/go/bin:$HOME/.rvm/bin"
+export PATH="$HOME/tools/lua-language-server/bin/macOS:/usr/local/opt/mysql@5.6/bin:/usr/local/opt/scala@2.12/bin:$GOPATH/bin:/usr/local/Cellar/gcc/5.2.0/bin:/usr/local/opt/openssl/bin:/usr/local/opt/curl/bin:/usr/local/opt/openssl/bin:/usr/local/bin:$PATH:/usr/local/Cellar/mysql/5.5.24/bin:/usr/local/sbin:/usr/share:/var/lib/gems/1.8/bin:$HOME/bin:$HOME/pear/bin:node_modules/.bin:$HOME/node_modules/.bin:/Developer/usr/bin:$PORTAL_PATH/bin:$HOME/.venvburrito/bin:$HOME/node_modules/bin:$HOME/gradle/bin:$HOME/terraform:$HOME/workspace/go/bin:$HOME/.rvm/bin"
 
 # travis ci access token
 export DOCKER_USERNAME=''
