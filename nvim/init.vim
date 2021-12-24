@@ -8,11 +8,14 @@ endif
 " let Vundle manage Vundle, required
 call plug#begin('~/.vim/plugged')
 " lsp dependencies
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer' 
+Plug 'folke/lsp-colors.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'onsails/lspkind-nvim'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'neovim/nvim-lspconfig'
+Plug 'onsails/lspkind-nvim'
+Plug 'williamboman/nvim-lsp-installer' 
 
 " syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
@@ -25,20 +28,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'sainnhe/gruvbox-material'
 
 call plug#end()
-
-"""
-" CONFIGURE GRUVBOX
-"""
-" Available values: 'hard', 'medium'(default), 'soft'
-" -----------------
-let g:gruvbox_material_background = 'hard'
-if exists('+termguicolors')
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[38;2;%lu;%lu;%lum"
-endif
-let g:gruvbox_invert_selection='0'
-" -----------------
-
 
 """ basic config
 syntax on
@@ -61,7 +50,9 @@ set undodir=~/.config/nvim/undodir
 set undofile
 set incsearch
 set colorcolumn=160
-highlight ColorColumn ctermbg=0 guibg=lightgrey
+set termguicolors
+set background=dark
+highlight ColorColumn ctermbg=0 guibg=#5a524c
 
 colorscheme gruvbox-material
 set background=dark
@@ -71,6 +62,10 @@ let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1 
+
+" gruvbox config
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_invert_selection='0'
 
 " nerd tree configuration 
 let NERDTreeAutoDeleteBuffer = 1
@@ -82,8 +77,4 @@ lua require('treesitter')
 
 """ language server completion config
 set completeopt=menu,menuone,noselect
-
-""" auto formatting
-autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
-
 

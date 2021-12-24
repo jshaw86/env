@@ -3,6 +3,13 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 local cmp = require('cmp')
 local lspkind = require('lspkind')
 
+require("lsp-colors").setup({
+  Error = "#db4b4b",
+  Warning = "#e0af68",
+  Information = "#0db9d7",
+  Hint = "#10B981"
+})
+
 cmp.setup({
     formatting = {
         format = lspkind.cmp_format({
