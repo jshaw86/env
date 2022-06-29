@@ -3,19 +3,11 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 local cmp = require('cmp')
 local lspkind = require('lspkind')
 
-require("lsp-colors").setup({
-  Error = "#db4b4b",
-  Warning = "#e0af68",
-  Information = "#0db9d7",
-  Hint = "#10B981"
-})
-
 cmp.setup({
     formatting = {
         format = lspkind.cmp_format({
             with_text = false, -- do not show text alongside icons
             maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-
         })
     },
     snippet = {
@@ -72,14 +64,15 @@ nvim_lsp.gopls.setup{
     capabilities = capabilities
 }
 
+require('rust-tools').setup({})
+
 local sumneko_binary_path = vim.fn.exepath('lua-language-server')
-local sumneko_root_path = vim.fn.fnamemodify(sumneko_binary_path, ':h:h:h')
 
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-require'lspconfig'.sumneko_lua.setup {
+nvim_lsp.sumneko_lua.setup {
     cmd = {sumneko_binary_path},
     settings = {
         Lua = {
@@ -105,12 +98,3 @@ require'lspconfig'.sumneko_lua.setup {
     },
 }
 
-nvim_lsp.intelephense.setup({
-    settings = {
-        intelephense = {
-            files = {
-                maxSize = 5000000;
-            };
-        };
-    }
-});

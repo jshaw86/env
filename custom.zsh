@@ -193,19 +193,32 @@ function java8() {
     export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 }
 
-function mysql57() {
-    export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+function extract_csv() {
+    FILE=$1
+    POSITION=$2
+    cat $FILE | awk "{ split(\$0, a, \",\"); print a[$POSITION]; }"
+}
+
+function replace_with_nothing() {
+    FILE=$1
+    CHAR_TO_REPLACE_WITH_NOTHING=$2
+    sed "s/\\$CHAR_TO_REPLACE_WITH_NOTHING//g" $FILE 
+
 
 }
 
-function terraform11() {
-    export PATH="/usr/local/opt/terraform@0.11/bin:$PATH"
-
+function format_file_for_in_query() {
+    FILE=$1
+    echo -n "'"
+    sed ":a;N;\$!ba;s/(\n|\r)/','/g" $FILE 
+    echo -n "'"
 }
 
-function terraform1() {
-    export PATH="/usr/local/opt/terraform@1.0/bin:$PATH"
-
+function format_file_for_kibana_OR_list() {
+    for FILE in $(echo $*)
+    do
+         sed ":a;N;\$!ba;s/\n/ OR /g" $FILE > "OR-$FILE"
+    done
 }
 
 [ -f "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"

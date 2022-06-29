@@ -1,7 +1,8 @@
 #!/bin/bash 
 
 brew tap adoptopenjdk/openjdk
-brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig fzf ripgrep go dsh python3 awscli ninja
+brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig fzf ripgrep go dsh python3 awscli ninja rustup rust-analyzer
+
 
 # for php language server
 npm i intelephense -g

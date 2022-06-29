@@ -16,6 +16,12 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'neovim/nvim-lspconfig'
 Plug 'onsails/lspkind-nvim'
 Plug 'williamboman/nvim-lsp-installer' 
+Plug 'tpope/vim-fugitive'
+Plug 'simrat39/rust-tools.nvim'
+
+" Debugging
+Plug 'nvim-lua/plenary.nvim'
+Plug 'mfussenegger/nvim-dap'
 
 " syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
