@@ -115,3 +115,9 @@ nvim_lsp.pyright.setup{
     },
     single_file_support = true
 }
+
+nvim_lsp.intelephense.setup({
+      flags = {
+        debounce_text_changes = 150,
+      }
+    })
