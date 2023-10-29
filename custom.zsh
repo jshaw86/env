@@ -47,7 +47,7 @@ alias -s cpp=nvim
 alias -s gs=nvim
 alias -s gsc=nvim
 
-alias grep='egrep'
+# alias grep='egrep'
 alias ll='ls -l'
 alias la='ls -a'
 alias vi='nvim'
@@ -95,6 +95,10 @@ zstyle ':completion:*:options' auto-description '%d'
 
 PERL_MB_OPT="--install_base \"/Users/$USER/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/$USER/perl5"; export PERL_MM_OPT;
+
+function listening() {
+    sudo lsof -iTCP -sTCP:LISTEN -n -P
+}
 
 function aws_env() {
     if [[ $1 == 'prod' ]] ; then

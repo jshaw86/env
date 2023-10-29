@@ -107,4 +107,4 @@ lua require('treesitter')
 
 """ language server completion config
 set completeopt=menu,menuone,noselect
-
+set clipboard+=unnamedplus
