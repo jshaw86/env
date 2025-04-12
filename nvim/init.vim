@@ -18,6 +18,7 @@ Plug 'onsails/lspkind-nvim'
 Plug 'williamboman/nvim-lsp-installer' 
 Plug 'tpope/vim-fugitive'
 Plug 'simrat39/rust-tools.nvim'
+Plug 'github/copilot.vim'
 
 " Debugging
 Plug 'nvim-lua/plenary.nvim'
@@ -42,7 +43,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
 
+" python notebooks
+Plug 'benlubas/molten-nvim'
+Plug '3rd/image.nvim'
+
 call plug#end()
+
+""" load python runtime
+"""vim.g.python3_host_prog=vim.fn.expand("/Users/jordan.shaw/env/virtualenvs/molten/bin/python3")
 
 """ basic config
 syntax on
