@@ -35,7 +35,7 @@ export PERL5LIB="/Users/$USER/perl5/lib/perl5:$PERL5LIB";
 export HISTFILE=~/.history
 export HISTSIZE=1000
 export SAVEHIST=1000
-export NODE_VERSION=20
+export NODE_VERSION=22
 
 source ~/.zshenv
 

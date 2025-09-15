@@ -29,11 +29,9 @@ return {
   { "windwp/nvim-autopairs", event = "InsertEnter", config = true },
   { "preservim/nerdtree" },
   { "fholgado/minibufexpl.vim" },
-
-  -- LLM: Copilot Chat or CodeGPT
-  { "zbirenbaum/copilot.lua" },
-  { "zbirenbaum/copilot-cmp" },
-  { "CopilotC-Nvim/CopilotChat.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+    
+  -- LLM 
+  { "gsuuon/model.nvim" },
 
 
 }
