@@ -7,13 +7,32 @@ return {
 
   -- LSP & Completion
   { "neovim/nvim-lspconfig" },
+  { "williamboman/mason.nvim", config = true },
+  { "williamboman/mason-lspconfig.nvim" },
+  { "WhoIsSethDaniel/mason-tool-installer.nvim" },
   { "hrsh7th/nvim-cmp" },
   { "hrsh7th/cmp-nvim-lsp" },
   { "L3MON4D3/LuaSnip" },
   { "saadparwaiz1/cmp_luasnip" },
 
+  -- Rust specific
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^5', -- Recommended
+    lazy = false, -- This plugin is already lazy
+  },
+
+  -- Formatting & Linting
+  { "nvimtools/none-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+
   -- Treesitter
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+
+  -- Debugging
+  { "mfussenegger/nvim-dap" },
+  { "rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} },
+  { "mfussenegger/nvim-dap-python" },
+  { "jay-babu/mason-nvim-dap.nvim" },
 
   -- Git
   { "lewis6991/gitsigns.nvim" },
@@ -34,5 +53,5 @@ return {
   { "gsuuon/model.nvim" },
 
 
+  { "ziglang/zig.vim" },
 }
-

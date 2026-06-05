@@ -11,7 +11,20 @@ fi
 
 brew tap adoptopenjdk/openjdk
 brew tap homebrew/cask-fonts
-brew install adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig fzf ripgrep go dsh python3 awscli ninja rustup rust-analyzer
+brew install zig zls adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig fzf ripgrep go dsh python3 expat pipx awscli ninja rustup
+
+# Setup pipx and install python tools
+pipx ensurepath
+pipx install black
+pipx install isort
+pipx install ruff
+pipx install debugpy
+
+# Initialize Rust toolchain
+if [ -f /opt/homebrew/opt/rustup/bin/rustup-init ]; then
+    /opt/homebrew/opt/rustup/bin/rustup-init -y --default-toolchain stable --component rust-analyzer
+    source "$HOME/.cargo/env"
+fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
@@ -75,8 +88,8 @@ if [ -d ~/.config/nvim ]; then
     echo "Skipping vimrc linking"
 else
     ln -s ~/env/nvim ~/.config/nvim
-    curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    nvm install v12.22.1
+    
+    nvm install 22 && nvm alias default 22
 fi
 
 if [ -d $HOME/tools ]; then
@@ -96,4 +109,3 @@ else
     cd ../..
     ./3rd/luamake/luamake rebuild
 fi
-

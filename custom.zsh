@@ -19,7 +19,7 @@ setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
 export LSCOLORS='gxfxcxdxbxgggdabagacad'
 export CLICOLOR='true'
 export EDITOR='nvim'
-export WORKON_HOME=~/virtual-environments
+export WORKON_HOME=~/env/virtualenvs
 export JAVA_HOME=`/usr/libexec/java_home -v 13`
 export GRADLE_HOME=~/gradle
 export NVM_DIR="$HOME/.nvm"
@@ -44,6 +44,7 @@ alias -s php=nvim
 alias -s css=nvim
 alias -s js=nvim
 alias -s cpp=nvim
+alias -s zig=nvim
 alias -s gs=nvim
 alias -s gsc=nvim
 

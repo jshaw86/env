@@ -19,5 +19,6 @@ vim.opt.incsearch = true
 vim.opt.colorcolumn = "160"
 vim.opt.termguicolors = true
 vim.opt.background = "dark"
+vim.opt.updatetime = 300
 vim.cmd([[highlight ColorColumn ctermbg=0 guibg=#5a524c]])
 vim.cmd([[colorscheme gruvbox-material]])
