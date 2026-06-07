@@ -1,111 +1,111 @@
-#!/bin/bash 
+#!/bin/bash
 
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Exit on error, undefined variables, and pipe failures
+set -euo pipefail
 
-(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
+echo "Starting environment setup..."
 
-if [ $? -ne 0 ]; then
-    exit 1
+# 1. Install Homebrew if not present
+if ! command -v brew &> /dev/null; then
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-brew tap adoptopenjdk/openjdk
-brew tap homebrew/cask-fonts
-brew install zig zls adoptopenjdk13 nvm nvim tmux reattach-to-user-namespace tig fzf ripgrep go dsh python3 expat pipx awscli ninja rustup
+# Dynamically set Homebrew environment
+if [[ -f /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
 
-# Setup pipx and install python tools
+BREW_PREFIX=$(brew --prefix)
+
+# 2. Brew Packages
+echo "Installing/Updating Brew packages..."
+brew update
+brew install zig zls nvm nvim tmux reattach-to-user-namespace \
+    tig fzf ripgrep go dsh python3 expat pipx awscli ninja rustup \
+    lua-language-server temurin
+
+# 3. Pipx and Python tools
+echo "Setting up Python tools..."
 pipx ensurepath
-pipx install black
-pipx install isort
-pipx install ruff
-pipx install debugpy
+for tool in black isort ruff debugpy; do
+    if ! pipx list | grep -q "$tool"; then
+        pipx install "$tool"
+    else
+        pipx upgrade "$tool"
+    fi
+done
 
-# Initialize Rust toolchain
-if [ -f /opt/homebrew/opt/rustup/bin/rustup-init ]; then
-    /opt/homebrew/opt/rustup/bin/rustup-init -y --default-toolchain stable --component rust-analyzer
-    source "$HOME/.cargo/env"
+# 4. Rust setup
+echo "Initializing Rust..."
+if [ -f "$BREW_PREFIX/opt/rustup/bin/rustup-init" ]; then
+    "$BREW_PREFIX/opt/rustup/bin/rustup-init" -y --default-toolchain stable --component rust-analyzer
+    # shellcheck source=/dev/null
+    [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 fi
 
+# 5. NVM & Node.js
+echo "Setting up Node.js..."
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+mkdir -p "$NVM_DIR"
+# shellcheck source=/dev/null
+[ -s "$BREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$BREW_PREFIX/opt/nvm/nvm.sh"
 
-if [ $? -ne 0 ]; then
-   exit 1
+if ! command -v node &> /dev/null || [[ $(node -v) != v22* ]]; then
+    nvm install 22
+    nvm alias default 22
+    nvm use default
 fi
 
-# for php language server
-npm i intelephense -g
+# Now that Node/NPM is ready, install global packages
+echo "Installing global NPM packages..."
+npm install -g intelephense
 
-if [ -d ~/.oh-my-zsh ]; then  
-    echo "Skipping oh-my-zsh setup"
-else
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# 6. Oh-My-Zsh & Themes
+if [ ! -d ~/.oh-my-zsh ]; then
+    echo "Installing Oh-My-Zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
+echo "Setting up fonts and themes..."
 brew install --cask font-hack-nerd-font
-curl -L https://raw.githubusercontent.com/sbugzu/gruvbox-zsh/master/gruvbox.zsh-theme > ~/.oh-my-zsh/custom/themes/gruvbox.zsh-theme
-echo "Configure Iterm"
-echo "install nerd fonts"
-echo "    iTerm2 > Profiles > Text > Non-Ascii font > Knack Regular Nerd Font Complete"
 
-if [ -f ~/env/gruvbox.itermcolors ]; then 
-    echo "Skipping zsh gruvbox colors setup"
-else
-    curl -L https://raw.githubusercontent.com/herrbischoff/iterm2-gruvbox/master/gruvbox.itermcolors > ~/env/gruvbox.itermcolors
-    
-    echo "install gruvbox.itermcolors from this directory"
-    echo "    iTerm2 Profiles -> Colors -> Color Preset"
+THEME_DEST="$HOME/.oh-my-zsh/custom/themes/gruvbox.zsh-theme"
+if [ ! -f "$THEME_DEST" ]; then
+    mkdir -p "$(dirname "$THEME_DEST")"
+    curl -fsSL https://raw.githubusercontent.com/sbugzu/gruvbox-zsh/master/gruvbox.zsh-theme > "$THEME_DEST"
 fi
 
-if [ -d ~/.tmux/plugins/tpm ]; then
-    echo "Skipping tpm setup"
-else
+# 7. Tmux Configuration
+if [ ! -d ~/.tmux/plugins/tpm ]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
-if [ -L ~/.tmux.conf ]; then
-    echo "Skipping tmux.conf linking"
-else
-    ln -s ~/env/.tmux.conf ~/.tmux.conf  
-    echo "Open tmux and type prefix + I to load theme"
+if [ ! -L ~/.tmux.conf ]; then
+    ln -sf ~/env/.tmux.conf ~/.tmux.conf
 fi
 
-if [ -L ~/.oh-my-zsh/custom/custom.zsh ]; then 
-    echo "Skipping custom.zsh linking"
-else
-    ln -s ~/env/custom.zsh ~/.oh-my-zsh/custom/custom.zsh
-    cp ~/env/.zshenv ~/.zshenv
+# 8. Zsh Configuration linking
+echo "Linking Zsh configurations..."
+mkdir -p ~/.oh-my-zsh/custom
+ln -sf ~/env/custom.zsh ~/.oh-my-zsh/custom/custom.zsh
+ln -sf ~/env/theme.zsh ~/.oh-my-zsh/custom/theme.zsh
+ln -sf ~/env/.zshenv ~/.zshenv
+
+# 9. Neovim & Ghostty
+echo "Linking application configs..."
+mkdir -p ~/.config
+if [ ! -L ~/.config/nvim ]; then
+    ln -sf ~/env/nvim ~/.config/nvim
 fi
 
-if [ -L ~/.oh-my-zsh/custom/theme.zsh ]; then 
-    echo "Skipping theme.zsh linking"
-else
-    ln -s ~/env/theme.zsh ~/.oh-my-zsh/custom/theme.zsh
+if [ ! -L ~/.config/ghostty ]; then
+    ln -sf ~/env/ghostty ~/.config/ghostty
 fi
 
-if [ -d ~/.config/nvim ]; then 
-    echo "Skipping vimrc linking"
-else
-    ln -s ~/env/nvim ~/.config/nvim
-    
-    nvm install 22 && nvm alias default 22
-fi
-
-if [ -d $HOME/tools ]; then
-    echo "Skipping lua language setup"
-else
-    mkdir -p $HOME/tools/ && cd $HOME/tools
-    git clone --depth=1 git@github.com:sumneko/lua-language-server.git 
-
-    cd lua-language-server
-    # if the cloning speed is too slow, edit .gitmodules and replace github.com
-    # with hub.fastgit.org, which should be faster than github.
-    git submodule update --init --recursive
-
-    # build on Linux
-    cd 3rd/luamake
-    compile/install.sh
-    cd ../..
-    ./3rd/luamake/luamake rebuild
-fi
+echo "Setup complete!"
+echo "Next steps:"
+echo "1. Restart your terminal or source ~/.zshrc"
+echo "2. Open tmux and press 'prefix + I' to install plugins"
