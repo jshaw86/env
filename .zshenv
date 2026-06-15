@@ -1,4 +1,4 @@
-export PATH="\$HOME/.local/bin:\$HOME/miniconda3/bin:\$HOME/tools/lua-language-server/bin/macOS:\$GOPATH/bin:/usr/local/bin:\$PATH:\$HOME/bin:\$HOME/pear/bin:node_modules/.bin:\$HOME/node_modules/.bin:\$HOME/gradle/bin:\$HOME/terraform:\$HOME/workspace/go/bin:\$HOME/.rvm/bin"
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/miniconda3/bin:$HOME/tools/lua-language-server/bin/macOS:$GOPATH/bin:$HOME/bin:$HOME/pear/bin:node_modules/.bin:$HOME/node_modules/.bin:$HOME/gradle/bin:$HOME/terraform:$HOME/workspace/go/bin:$HOME/.rvm/bin"
 
 # travis ci access token
 export DOCKER_USERNAME=''

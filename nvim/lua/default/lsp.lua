@@ -6,15 +6,11 @@ require("mason-tool-installer").setup({
   ensure_installed = { "black", "isort", "debugpy", "codelldb" }
 })
 
-local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+vim.lsp.config("*", { capabilities = capabilities })
 -- rust_analyzer is handled by rustaceanvim
 local servers = { "clangd", "pyright", "ruff", "gopls", "intelephense", "zls" }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    capabilities = capabilities,
-  }
-end
+vim.lsp.enable(servers)
 
 vim.diagnostic.config({
   virtual_text = {
